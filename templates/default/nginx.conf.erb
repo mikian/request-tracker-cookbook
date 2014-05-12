@@ -1,0 +1,32 @@
+# based on /usr/share/doc/rt4-fcgi/examples/request-tracker4.conf
+
+server {
+  listen 80;
+  server_name <%= @domain.to_json %>;
+
+  access_log /var/log/nginx/<%= @service_name %>-access.log;
+
+  location / {
+    return 301 <%= @web_path %>;
+  }
+
+  location <%= @web_path %> {
+    alias   /usr/share/request-tracker4/html;
+
+    expires   epoch;
+    include   /etc/nginx/fastcgi_params;
+    fastcgi_param SCRIPT_NAME   "/rt";
+    fastcgi_pass  unix:/var/run/rt4-fcgi.sock;
+  }
+
+  # Bypass FastCGI for images
+  location <%= @web_path %>/NoAuth/images {
+    alias   /usr/share/request-tracker4/html/NoAuth/images/;
+  }
+
+  # Limit mail gateway access to localhost by default
+  location <%= @web_path %>/REST/1.0/NoAuth {
+    allow   127.0.0.1;
+    deny    all;
+  }
+}

@@ -2,7 +2,62 @@
 # Cookbook Name:: request-tracker
 # Recipe:: default
 #
-# Copyright 2014, YOUR_COMPANY_NAME
+# Copyright 2014, Bráulio Bhavamitra <braulio@eita.org.br>
 #
-# All rights reserved - Do Not Redistribute
+# GPLv3+
 #
+
+server = node['request-tracker']['server']
+if server == 'nginx'
+  case node['platform_family']
+    when "debian", "ubuntu"
+      packages = %w[rt4-apache2]
+    end
+elsif server == 'apache'
+  case node['platform_family']
+    when "debian", "ubuntu"
+      packages = %w[rt4-fgci]
+    end
+end
+
+packages.each do |p|
+  package p
+end
+
+fcgi = if server == 'nginx' then true elsif server == 'apache' then false end
+service 'rt4-fcgi' do
+  init_command "/etc/init.d/rt4-fcgi"
+  action (if fcgi then :enable else :disable end)
+end
+
+template "/etc/default/rt4-fcgi" do
+  variables({
+    :fcgi => (if fcgi then 1 else 0 end),
+    :workers => node['request-tracker']['fcgi_workers'],
+  })
+  notifies :restart, "service[rt4-fcgi]"
+end
+
+template "#{node['request-tracker']['config_path']}/RT_SiteConfig.pm" do
+  mode "640"
+  variables node['request-tracker']
+  notifies :restart, "service[rt4-fcgi]"
+end
+
+if server == 'nginx'
+  template "#{node['nginx']['dir']}/sites-enabled/#{node['request-tracker']['service_name']}" do
+    source "nginx.conf.erb"
+    variables node['request-tracker']
+
+    notifies :reload, "service[nginx]"
+    action :create
+  end
+elsif node['request-tracker']['proxy_server'] == 'apache'
+  web_app node['request-tracker']['service_name'] do
+    enable true
+
+    server_name node['request-tracker']['domain']
+  end
+  notifies :reload, "service[apache2]"
+end
+
