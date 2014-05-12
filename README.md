@@ -1,27 +1,20 @@
 request-tracker Cookbook
 ========================
-Install request-tracker using the system package
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+Install fetchmail using the system package configure
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
-
 Plataforms:
  - Debian
  - Ubuntu
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
-e.g.
 #### request-tracker::default
 <table>
   <tr>
     <th>Attribute</th>
+    <th>Description</th>
     <th>Default</th>
   </tr>
   <tr>
@@ -127,9 +120,6 @@ Just include `request-tracker` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write your change
