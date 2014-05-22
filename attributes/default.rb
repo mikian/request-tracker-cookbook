@@ -1,27 +1,27 @@
 
-default['request-tracker']['server'] = 'nginx'
-default['request-tracker']['domain'] = ''
+default[:request_tracker][:server] = 'nginx'
+default[:request_tracker][:domain] = ''
 
-default['request-tracker']['service_name'] = 'request-tracker'
-default['request-tracker']['config_path'] = '/etc/request-tracker4'
+default[:request_tracker][:service_name] = 'request-tracker'
+default[:request_tracker][:config_path] = '/etc/request-tracker4'
 
-default['request-tracker']['fcgi_workers'] = 1
+default[:request_tracker][:fcgi_workers] = 1
 
-default['request-tracker']['name'] = 'Request Tracker'
-default['request-tracker']['organization'] = 'Organization'
-default['request-tracker']['force_language'] = nil
+default[:request_tracker][:name] = 'Request Tracker'
+default[:request_tracker][:organization] = 'Organization'
+default[:request_tracker][:force_language] = nil
 
-default['request-tracker']['correspond_address'] = ''
-default['request-tracker']['comment_address'] = ''
+default[:request_tracker][:correspond_address] = ''
+default[:request_tracker][:comment_address] = ''
 
-default['request-tracker']['web_path'] = '/rt'
-default['request-tracker']['web_base_url'] = "http://#{node['request-tracker']['domain']}"
+default[:request_tracker][:web_path] = '/rt'
+default[:request_tracker][:web_base_url] = "http://#{node[:request_tracker][:domain]}"
 
 # 'mysql', 'Pg', 'SQLite', ...
-default['request-tracker']['db_type'] = "mysql"
-default['request-tracker']['db_host'] = "localhost"
-default['request-tracker']['db_port'] = ""
-default['request-tracker']['db_name'] = "rt"
-default['request-tracker']['db_user'] = "rtuser"
-default['request-tracker']['db_password'] = ""
+default[:request_tracker][:db_type] = "mysql"
+default[:request_tracker][:db_host] = "localhost"
+default[:request_tracker][:db_port] = ""
+default[:request_tracker][:db_name] = "rt"
+default[:request_tracker][:db_user] = "rtuser"
+default[:request_tracker][:db_password] = ""
 

@@ -1,4 +1,4 @@
-name             'request-tracker'
+name             'request_tracker'
 maintainer       'Bráulio Bhavamitra'
 maintainer_email 'braulio@eita.org.br'
 license          'GPLv3+'
