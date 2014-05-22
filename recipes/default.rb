@@ -1,11 +1,3 @@
-#
-# Cookbook Name:: request-tracker
-# Recipe:: default
-#
-# Copyright 2014, Bráulio Bhavamitra <braulio@eita.org.br>
-#
-# GPLv3+
-#
 
 server = node['request-tracker']['server']
 if server == 'nginx'

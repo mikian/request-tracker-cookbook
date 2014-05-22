@@ -1,11 +1,3 @@
-#
-# Cookbook Name:: request-tracker
-# Recipe:: default
-#
-# Copyright 2014, Bráulio Bhavamitra <braulio@eita.org.br>
-#
-# GPLv3+
-#
 
 default['request-tracker']['server'] = 'nginx'
 default['request-tracker']['domain'] = ''
