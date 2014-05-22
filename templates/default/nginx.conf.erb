@@ -1,7 +1,7 @@
 # based on /usr/share/doc/rt4-fcgi/examples/request-tracker4.conf
 
 server {
-  listen 80;
+  listen <%= node[:nginx][:listen_ports].first %>;
   server_name <%= @domain.to_json %>;
 
   access_log /var/log/nginx/<%= @service_name %>-access.log;
