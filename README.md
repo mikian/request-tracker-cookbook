@@ -118,6 +118,10 @@ Just include `request\_tracker` in your node's `run_list`:
 }
 ```
 
+TODO
+----
+Install from git/code
+
 Contributing
 ------------
 1. Fork the repository on Github
