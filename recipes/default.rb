@@ -1,11 +1,11 @@
 
 server = node[:request_tracker][:server]
-if server == 'nginx'
+if server == 'apache'
   case node[:platform_family]
     when "debian", "ubuntu"
       packages = %w[rt4-apache2]
     end
-elsif server == 'apache'
+elsif server == 'nginx'
   case node[:platform_family]
     when "debian", "ubuntu"
       packages = %w[rt4-fgci]

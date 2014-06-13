@@ -73,6 +73,11 @@ Attributes
     <td><tt>http://#{node[:request_tracker][:domain]}</tt></td>
   </tr>
   <tr>
+    <td><tt>node[:request_tracker][:config]['VariableName']</tt></td>
+    <td>Extra configuration keys. All the keys in it will generate a config value on RT_SiteConfig.pm, (e.g. `Set($VariableName, "value");`) </td>
+    <td><tt>value</tt></td>
+  </tr>
+  <tr>
     <td><tt>node[:request_tracker][:db_type]</tt></td>
     <td>What DB (mysql, Pg, SQLite, ...)</td>
     <td><tt>mysql</tt></td>
