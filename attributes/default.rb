@@ -1,6 +1,6 @@
 
 default[:request_tracker][:server] = 'nginx'
-default[:request_tracker][:domain] = ''
+default[:request_tracker][:server_name] = node[:fqdn]
 
 default[:request_tracker][:service_name] = 'request-tracker'
 default[:request_tracker][:config_path] = '/etc/request-tracker4'

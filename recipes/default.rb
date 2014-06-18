@@ -1,19 +1,44 @@
+package_options = ''
+
+case node[:platform_family]
+when "debian", "ubuntu"
+if node[:request_tracker][:install_from] == 'debian_testing'
+  package_options = '-t testing'
+
+  apt_repository 'debian_testing' do
+    uri 'http://ftp.debian.org/debian'
+    distribution "testing"
+    components ['main']
+    keyserver 'keyserver.ubuntu.com'
+    key '8B48AD6246925553'
+  end
+
+  apt_preference 'debian_testing' do
+    glob '*'
+    pin 'release a=testing'
+    # 200 was chosen based on http://stackoverflow.com/questions/512906/debian-how-can-i-pull-a-single-package-with-dependencies-from-another-repositor
+    pin_priority '200'
+  end
+end
+end
 
 server = node[:request_tracker][:server]
 if server == 'apache'
   case node[:platform_family]
-    when "debian", "ubuntu"
-      packages = %w[rt4-apache2]
-    end
+  when "debian", "ubuntu"
+    packages = %w[rt4-apache2]
+  end
 elsif server == 'nginx'
   case node[:platform_family]
-    when "debian", "ubuntu"
-      packages = %w[rt4-fgci]
-    end
+  when "debian", "ubuntu"
+    packages = %w[rt4-fcgi]
+  end
 end
 
 packages.each do |p|
-  package p
+  package p do
+    options package_options
+  end
 end
 
 fcgi = if server == 'nginx' then true elsif server == 'apache' then false end

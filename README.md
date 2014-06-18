@@ -18,14 +18,19 @@ Attributes
     <th>Default</th>
   </tr>
   <tr>
+    <td><tt>node[:request_tracker][:install_from]</tt></td>
+    <td>Choose a custom place to install from in one of: `debian_testing`</td>
+    <td><tt>'system'</tt></td>
+  </tr>
+  <tr>
     <td><tt>node[:request_tracker][:server]</tt></td>
     <td>Support 'apache' and 'nginx'</td>
     <td><tt>nginx</tt></td>
   </tr>
   <tr>
-    <td><tt>node[:request_tracker][:domain]</tt></td>
+    <td><tt>node[:request_tracker][:server_name]</tt></td>
     <td></td>
-    <td><tt>''</tt></td>
+    <td><tt>node[:fqdn]</tt></td>
   </tr>
   <tr>
     <td><tt>node[:request_tracker][:service_name]</tt></td>
@@ -44,7 +49,7 @@ Attributes
   </tr>
   <tr>
     <td><tt>node[:request_tracker][:organization]</tt></td>
-    <td>Site name</td>
+    <td>Organization name</td>
     <td><tt>Request Tracker</tt></td>
   </tr>
   <tr>
