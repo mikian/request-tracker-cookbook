@@ -1,7 +1,7 @@
 # based on /usr/share/doc/rt4-fcgi/examples/request-tracker4.conf
 
 server {
-  listen <%= node[:nginx][:listen_ports].first %>;
+  listen <%= @server_port %>;
   server_name <%= @domain.to_json %>;
 
   access_log /var/log/nginx/<%= @service_name %>-access.log;
@@ -25,9 +25,10 @@ server {
     alias   /usr/share/request-tracker4/html/NoAuth/images/;
   }
 
-  # Limit mail gateway access to localhost by default
+  <% if @mail_gateway[:localhost_only] %>
   location <%= @web_path %>/REST/1.0/NoAuth {
     allow   127.0.0.1;
     deny    all;
   }
+  <% end %>
 }

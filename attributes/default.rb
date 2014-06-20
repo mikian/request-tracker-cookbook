@@ -2,6 +2,13 @@
 default[:request_tracker][:server] = 'nginx'
 default[:request_tracker][:server_name] = node[:fqdn]
 
+default[:request_tracker][:server_port] = case node[:request_tracker][:server]
+                                          when 'nginx'
+                                            node[:nginx][:listen_ports].first
+                                          when 'apache'
+                                            node[:apache][:listen_ports].first
+                                          end
+
 default[:request_tracker][:service_name] = 'request-tracker'
 default[:request_tracker][:config_path] = '/etc/request-tracker4'
 
@@ -16,6 +23,9 @@ default[:request_tracker][:comment_address] = ''
 
 default[:request_tracker][:web_path] = '/rt'
 default[:request_tracker][:web_base_url] = "http://#{node[:request_tracker][:domain]}"
+
+default[:request_tracker][:mail_gateway] = {}
+default[:request_tracker][:mail_gateway][:localhost_only] = false
 
 # 'mysql', 'Pg', 'SQLite', ...
 default[:request_tracker][:db_type] = "mysql"
