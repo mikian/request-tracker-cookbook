@@ -4,7 +4,7 @@ maintainer_email 'braulio@eita.org.br'
 license          'GPLv3+'
 description      'Installs/Configures Request Tracker 4'
 long_description File.read("#{File.dirname __FILE__}/README.md")
-version          '1.1.0'
+version          '1.1.1'
 
 depends         'apt'
 

@@ -5,6 +5,7 @@ server {
   server_name <%= @domain.to_json %>;
 
   access_log /var/log/nginx/<%= @service_name %>-access.log;
+  error_log /var/log/nginx/<%= @service_name %>-error.log;
 
   location / {
     return 301 <%= @web_path %>;
