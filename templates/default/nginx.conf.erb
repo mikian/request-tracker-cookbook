@@ -1,41 +1,40 @@
 # based on /usr/share/doc/rt4-fcgi/examples/request-tracker4.conf
 
-http {
-  fastcgi_cache_path /etc/nginx/cache levels=1:2 keys_zone=<%= @service_name %>:100m inactive=60m;
-  fastcgi_cache_key "$scheme$request_method$host$request_uri";
+server {
+  listen <%= @server_port %>;
+  server_name <%= @domain.to_json %>;
 
-  server {
-    listen <%= @server_port %>;
-    server_name <%= @domain.to_json %>;
+  access_log /var/log/nginx/<%= @service_name %>-access.log;
+  error_log /var/log/nginx/<%= @service_name %>-error.log;
 
-    access_log /var/log/nginx/<%= @service_name %>-access.log;
-    error_log /var/log/nginx/<%= @service_name %>-error.log;
+  location / {
+    return 301 <%= @web_path %>;
+  }
 
-    location / {
-      return 301 <%= @web_path %>;
-    }
+  # Bypass FastCGI for images
+  location <%= @web_path %>/NoAuth/images {
+    expires modified <%= @cache[:expires] %>;
+    alias /usr/share/request-tracker4/html/NoAuth/images/;
+  }
 
-    location <%= @web_path %> {
-      alias   /usr/share/request-tracker4/html;
+  location <%= @web_path %> {
+    alias /usr/share/request-tracker4/html;
 
-      expires modified 7d;
-      include /etc/nginx/fastcgi_params;
-      fastcgi_param SCRIPT_NAME "/rt";
-      fastcgi_pass  unix:/var/run/rt4-fcgi.sock;
-      fastcgi_cache <%= @service_name %>;
-      fastcgi_cache_valid 200 60m;
-    }
+    include /etc/nginx/fastcgi_params;
+    fastcgi_param SCRIPT_NAME "/rt";
+    fastcgi_pass  unix:/var/run/rt4-fcgi.sock;
 
-    # Bypass FastCGI for images
-    location <%= @web_path %>/NoAuth/images {
-      alias   /usr/share/request-tracker4/html/NoAuth/images/;
-    }
-
-    <% if @mail_gateway[:localhost_only] %>
-    location <%= @web_path %>/REST/1.0/NoAuth {
-      allow   127.0.0.1;
-      deny    all;
-    }
+    expires modified <%= @cache[:expires] %>;
+    <% if @cache[:enable] %>
+    fastcgi_cache <%= @cache[:key_zone] %>;
+    fastcgi_cache_valid 200 60m;
     <% end %>
   }
+
+  <% if @mail_gateway[:localhost_only] %>
+  location <%= @web_path %>/REST/1.0/NoAuth {
+    allow   127.0.0.1;
+    deny    all;
+  }
+  <% end %>
 }

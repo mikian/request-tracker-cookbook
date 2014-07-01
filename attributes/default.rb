@@ -35,3 +35,8 @@ default[:request_tracker][:db_name] = "rt"
 default[:request_tracker][:db_user] = "rtuser"
 default[:request_tracker][:db_password] = ""
 
+default[:request_tracker][:cache] = {}
+default[:request_tracker][:cache][:enable] = true
+default[:request_tracker][:cache][:key_zone] = 'main'
+default[:request_tracker][:cache][:expires] = '30d'
+
