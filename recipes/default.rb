@@ -62,19 +62,32 @@ template "#{node[:request_tracker][:config_path]}/RT_SiteConfig.pm" do
 end
 
 if server == 'nginx'
-  template "#{node[:nginx][:dir]}/sites-enabled/#{node[:request_tracker][:service_name]}" do
+  include_recipe 'nginx'
+
+  template "#{node[:nginx][:dir]}/sites-available/#{node[:request_tracker][:service_name]}" do
     source "nginx.conf.erb"
+    owner node[:nginx][:user]
+    group node[:nginx][:group]
     variables node[:request_tracker]
-
-    notifies :reload, "service[nginx]"
-    action :create
   end
-elsif node[:request_tracker][:proxy_server] == 'apache'
-  web_app node[:request_tracker][:service_name] do
+
+  nginx_site node[:request_tracker][:service_name] do
     enable true
-
-    server_name node[:request_tracker][:domain]
   end
-  notifies :reload, "service[apache2]"
+elsif server == 'apache'
+  include_recipe 'apache2'
+
+  template "#{node[:apache][:dir]}/sites-available/#{node[:request_tracker][:service_name]}.conf" do
+    source "apache2.conf.erb"
+    owner node[:apache][:user]
+    group node[:apache][:group]
+    variables node[:request_tracker]
+  end
+  link "#{node[:apache][:dir]}/sites-available/#{node[:request_tracker][:service_name]}" do
+    to "#{node[:apache][:dir]}/sites-available/#{node[:request_tracker][:service_name]}.conf"
+  end
+  apache_site node[:request_tracker][:service_name] do
+    enable true
+  end
 end
 

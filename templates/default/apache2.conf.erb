@@ -1,5 +1,5 @@
-<VirtualHost *:80>
-  ServerName <%= @domain %>
+<VirtualHost *:<%= @server_port %>>
+  ServerName <%= @server_name %>
 
   Include /etc/request-tracker4/apache2-modperl2.conf
   RedirectMatch ^/$ <%= @web_path %>/
