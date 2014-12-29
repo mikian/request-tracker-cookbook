@@ -2,13 +2,7 @@
 default[:request_tracker][:server] = 'nginx'
 default[:request_tracker][:server_name] = node[:request_tracker][:domain] || node[:fqdn]
 
-default[:request_tracker][:server_port] =
-  case node[:request_tracker][:server]
-  when 'nginx'
-    node[:nginx][:listen_ports].first
-  when 'apache'
-    node[:apache][:listen_ports].first
-  end
+default[:request_tracker][:server_port] = '80'
 
 default[:request_tracker][:service_name] = 'request-tracker'
 default[:request_tracker][:config_path] = '/etc/request-tracker4'
